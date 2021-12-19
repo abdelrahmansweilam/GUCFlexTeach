@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
+      //iOS Code
       return Scaffold(
         drawer: Drawer(
           child: ListView(
@@ -106,10 +107,64 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     } else {
+      // Android Code
       return DefaultTabController(
         length: 4,
         child: Scaffold(
+          drawer: Drawer(
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                  ),
+                  child: Text(
+                    "Username goes here!!",
+                    style: TextStyle(),
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Profile'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: const Text('My Discussions'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: const Text('Logout'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+              ],
+            ), // Populate the Drawer in the next step.
+          ),
           appBar: AppBar(
+            leading: Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(
+                    Icons.account_circle_rounded,
+                    size: 36,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
+                );
+              },
+            ),
             title: const Text(
               "GUC FlexTeach",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -117,13 +172,9 @@ class _HomePageState extends State<HomePage> {
             bottom: TabBar(
               tabs: [
                 // Discussions Tab
-                Tab(
-                  icon: discussion_icon,
-                ),
+                Tab(icon: discussion_icon),
                 // Courses Tab
-                Tab(
-                  icon: courses_icon,
-                ),
+                Tab(icon: courses_icon),
                 // Notifications Tab
                 Tab(
                   icon: Icon(
@@ -139,9 +190,9 @@ class _HomePageState extends State<HomePage> {
           body: TabBarView(
             children: [
               DiscussionsScreen(),
-              Container(),
-              Container(),
-              Container()
+              CoursesScreen(),
+              NotificationsScreen(),
+              AssignmentsScreen()
             ],
           ),
         ),
