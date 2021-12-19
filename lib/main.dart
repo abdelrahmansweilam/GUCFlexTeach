@@ -1,3 +1,4 @@
+import 'package:flexteach/Routes/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Routes/home_page.dart';
@@ -23,7 +24,8 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => HomePage(),
+        '/': (ctx) => const HomePage(),
+        '/profileRoute': (ctx) => const ProfileScreen(),
       },
     );
   }

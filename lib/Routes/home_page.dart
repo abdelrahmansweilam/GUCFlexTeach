@@ -52,8 +52,7 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: const Text('Profile'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.of(context).pushNamed('/profileRoute');
                 },
               ),
               ListTile(
@@ -135,8 +134,7 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: const Text('Profile'),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                    Navigator.of(context).pushNamed('/profileRoute');
                   },
                 ),
                 ListTile(
