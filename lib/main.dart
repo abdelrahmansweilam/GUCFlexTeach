@@ -20,8 +20,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'GUC FlexTeach',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.red,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        accentColor: Colors.red,
+      ), // standard dark theme
+      themeMode: ThemeMode.system, // device controls theme
       initialRoute: '/',
       routes: {
         '/': (ctx) => const HomePage(),

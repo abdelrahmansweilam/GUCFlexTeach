@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               const DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.orange,
+                  color: Colors.red,
                 ),
                 child: Text(
                   "Username goes here!!",
@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
           ), // Populate the Drawer in the next step.
         ),
         appBar: AppBar(
+          backgroundColor: Colors.red,
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -124,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: Colors.red,
                   ),
                   child: Text(
                     "Username goes here!!",
@@ -155,6 +156,7 @@ class _HomePageState extends State<HomePage> {
             ), // Populate the Drawer in the next step.
           ),
           appBar: AppBar(
+            backgroundColor: Colors.red,
             leading: Builder(
               builder: (BuildContext context) {
                 return IconButton(
