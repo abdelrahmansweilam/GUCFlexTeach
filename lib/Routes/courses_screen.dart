@@ -33,8 +33,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
           softWrap: true,
           overflow: TextOverflow.fade,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.left,

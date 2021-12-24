@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CourseScreen extends StatefulWidget {
+class CourseDiscussionScreen extends StatefulWidget {
   @override
-  State<CourseScreen> createState() => _CourseScreenState();
+  State<CourseDiscussionScreen> createState() => _CourseDiscussionScreenState();
 }
 
-class _CourseScreenState extends State<CourseScreen> {
+class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
   List<String> instructors = [];
   var discussions;
   Future<void> getCourseInfo() async {
@@ -28,7 +28,8 @@ class _CourseScreenState extends State<CourseScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(courseName!),
+        title: Text(courseName! + "'s Discussions"),
+        backgroundColor: Colors.red,
       ),
       body: Column(
         children: [

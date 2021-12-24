@@ -55,12 +55,20 @@ class _HomePageState extends State<HomePage> {
                   Navigator.of(context).pushNamed('/profileRoute');
                 },
               ),
+              const Divider(
+                height: 1,
+                thickness: 2,
+              ),
               ListTile(
                 title: const Text('My Discussions'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
                 },
+              ),
+              const Divider(
+                height: 1,
+                thickness: 2,
               ),
               ListTile(
                 title: const Text('Logout'),
@@ -138,12 +146,20 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).pushNamed('/profileRoute');
                   },
                 ),
+                const Divider(
+                  height: 1,
+                  thickness: 2,
+                ),
                 ListTile(
                   title: const Text('My Discussions'),
                   onTap: () {
                     // Update the state of the app.
                     // ...
                   },
+                ),
+                const Divider(
+                  height: 1,
+                  thickness: 2,
                 ),
                 ListTile(
                   title: const Text('Logout'),

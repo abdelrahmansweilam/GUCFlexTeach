@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Routes/course_discussion_screen.dart';
 import 'Routes/course_screen.dart';
 import 'Routes/profile_screen.dart';
 import 'Routes/home_page.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         '/': (ctx) => HomePage(),
         '/profileRoute': (ctx) => ProfileScreen(),
         '/courseRoute': (ctx) => CourseScreen(),
+        "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
       },
     );
   }
