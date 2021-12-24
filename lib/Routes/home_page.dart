@@ -1,12 +1,12 @@
-import 'package:flexteach/Routes/assignments_screen.dart';
-import 'package:flexteach/Routes/courses_screen.dart';
-import 'package:flexteach/Routes/notifications_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'dart:io' show Platform;
 
 import 'package:flexteach/Assets/icons.dart';
+import 'courses_screen.dart';
+import 'notifications_screen.dart';
+import 'assignments_screen.dart';
 import 'discussions_screen.dart';
 
 class HomePage extends StatefulWidget {

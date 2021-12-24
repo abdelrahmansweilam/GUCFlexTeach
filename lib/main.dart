@@ -1,6 +1,7 @@
-import 'package:flexteach/Routes/profile_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'Routes/course_screen.dart';
+import 'Routes/profile_screen.dart';
 import 'Routes/home_page.dart';
 
 void main() {
@@ -29,8 +30,9 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system, // device controls theme
       initialRoute: '/',
       routes: {
-        '/': (ctx) => const HomePage(),
-        '/profileRoute': (ctx) => const ProfileScreen(),
+        '/': (ctx) => HomePage(),
+        '/profileRoute': (ctx) => ProfileScreen(),
+        '/courseRoute': (ctx) => CourseScreen(),
       },
     );
   }
