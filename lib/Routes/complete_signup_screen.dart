@@ -27,9 +27,7 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
 
   @override
   void initState() {
-    setState(() {
-      majorsList = getMajors() as List<String>;
-    });
+    getMajorslist();
     super.initState();
   }
 
@@ -120,14 +118,18 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
                               child: Text(item), value: item))
                           .toList(),
                       value: major,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          major = newValue!;
-                          courses = getMajorCourses(major) as List<String>;
-                          courses.forEach((element) {
-                            coursesSelection.add(false);
+                      onChanged: (String? newValue) async {
+                        if (newValue != "Major") {
+                          List<String> newCourses =
+                              await getMajorCourses(newValue as String);
+                          setState(() {
+                            courses = newCourses;
+                            major = newValue;
+                            courses.forEach((element) {
+                              coursesSelection.add(false);
+                            });
                           });
-                        });
+                        }
                       },
                     ),
                   ],
@@ -174,5 +176,12 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
         ),
       ),
     );
+  }
+
+  void getMajorslist() async {
+    List<String> newMajorsList = await getMajors();
+    setState(() {
+      majorsList = newMajorsList;
+    });
   }
 }

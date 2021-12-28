@@ -32,7 +32,7 @@ void completeSignup(String name, String app_id, bool isInstructor, String major,
       'app_id': app_id,
       'isInstructor': isInstructor,
       'major': major,
-      'course': courses,
+      'courses': courses,
       'profile_photo': null,
     });
   } catch (e) {

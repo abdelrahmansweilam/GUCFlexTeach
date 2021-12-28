@@ -19,21 +19,23 @@ Future<List<String>> getMajors() async {
   return majors;
 }
 
-Future<dynamic> getMajorCourses(String major) async {
+Future<List<String>> getMajorCourses(String major) async {
+  List<String> courses = [];
   try {
-    List courses = [];
     await FirebaseFirestore.instance
         .collection("majors")
         .where('major', isEqualTo: major)
+        .limit(1)
         .get()
         .then((snapshot) {
-      snapshot.docs.forEach((doc) {
-        courses = doc['courses'];
-      });
-      return courses;
+      for (var item in snapshot.docs[0]['courses']) {
+        courses.add(item as String);
+      }
     });
   } catch (e) {
     print(e.toString());
     rethrow;
   }
+  print(courses);
+  return courses;
 }
