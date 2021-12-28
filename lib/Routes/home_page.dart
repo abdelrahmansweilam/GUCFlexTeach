@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
@@ -73,8 +74,9 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: const Text('Logout'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/loginRoute', (Route<dynamic> route) => false);
                 },
               ),
             ],
@@ -164,8 +166,9 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: const Text('Logout'),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                    FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/loginRoute', (Route<dynamic> route) => false);
                   },
                 ),
               ],

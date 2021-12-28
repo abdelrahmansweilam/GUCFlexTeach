@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:flexteach/Routes/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,10 +61,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: _isObscurePassword,
               ),
               ElevatedButton(
+                onPressed: () {
+                  login();
+                },
+                child: Text("Log in"),
+              ),
+              TextButton(
                   onPressed: () {
-                    login();
+                    Navigator.of(context).pushNamed('/register');
                   },
-                  child: Text("Log in")),
+                  child: Text("Register"))
             ],
           ),
         ),
