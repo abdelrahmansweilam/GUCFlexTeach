@@ -1,14 +1,13 @@
-// ignore_for_file: file_names
-
-import '../Functions/user_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatefulWidget {
+import '../Functions/user_auth.dart';
+
+class SignupScreen extends StatefulWidget {
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _isObscurePassword = true;

@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
-
-import 'package:flexteach/Routes/signup_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flexteach/Functions/user_auth.dart';
+import 'package:flexteach/Routes/signup_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -63,8 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: _isObscurePassword,
               ),
               ElevatedButton(
-                onPressed: () {
-                  login();
+                onPressed: () async {
+                  await login(emailController.text.trim(),
+                          passwordController.text.trim())
+                      .then((value) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
+                  });
                 },
                 child: Text("Log in"),
               ),
@@ -80,12 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login() async{
-    var email = emailController.text.trim();
-var password = passwordController.text.trim();
-    UserCredential authResult;
-  authResult = await authenticationInstance.signInWithEmailAndPassword(
-email: email,
-password: password,
-);}
+  // void login() async {
+  //   var email = emailController.text.trim();
+  //   var password = passwordController.text.trim();
+  //   UserCredential authResult;
+  //   authResult = await authenticationInstance.signInWithEmailAndPassword(
+  //     email: email,
+  //     password: password,
+  //   );
+  // }
 }

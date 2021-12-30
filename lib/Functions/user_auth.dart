@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final auth = FirebaseAuth.instance;
 
-Future signup(email, password) async {
+Future<void> signup(email, password) async {
   try {
     UserCredential authResult = await auth.createUserWithEmailAndPassword(
       email: email,
@@ -21,8 +21,8 @@ Future signup(email, password) async {
   }
 }
 
-void completeSignup(String name, String app_id, bool isInstructor, String major,
-    var courses) async {
+Future<void> completeSignup(String name, String app_id, bool isInstructor,
+    String major, var courses) async {
   try {
     await FirebaseFirestore.instance
         .collection('users')
@@ -41,7 +41,7 @@ void completeSignup(String name, String app_id, bool isInstructor, String major,
   }
 }
 
-void login(email, password) async {
+Future<void> login(email, password) async {
   try {
     UserCredential authResult = await auth.signInWithEmailAndPassword(
       email: email,

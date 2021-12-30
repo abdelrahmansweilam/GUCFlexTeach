@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         '/': (ctx) => MainScreen(),
         '/homePage': (ctx) => HomePage(),
         '/loginRoute': (ctx) => LoginScreen(),
-        '/register': (ctx) => SignUpScreen(),
+        '/register': (ctx) => SignupScreen(),
         '/completeSignup': (ctx) => CompleteSignupScreen(),
         '/profileRoute': (ctx) => ProfileScreen(),
         '/courseRoute': (ctx) => CourseScreen(),
