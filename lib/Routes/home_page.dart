@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/loginRoute', (Route<dynamic> route) => false);
+                      '/', (Route<dynamic> route) => false);
                 },
               ),
             ],
