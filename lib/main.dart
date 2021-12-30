@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        accentColor: Colors.red,
+        primarySwatch: Colors.red,
       ), // standard dark theme
       themeMode: ThemeMode.system, // device controls theme
       initialRoute: '/',

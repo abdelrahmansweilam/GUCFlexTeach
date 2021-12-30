@@ -14,6 +14,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isObscurePassword = true;
   TextEditingController confirmPasswordController = TextEditingController();
   bool _isObscureConfirmPassword = true;
+  bool error = false;
+  late String errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +86,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ElevatedButton(
                     onPressed: () async {
                       try {
-                        await signup(emailController.text.trim(),
-                                passwordController.text.trim())
-                            .then((value) {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/completeSignup',
-                              (Route<dynamic> route) => false);
-                        });
+                        error = false;
+                        if (passwordController.text !=
+                            confirmPasswordController.text) {
+                          setState(() {
+                            error = true;
+                            errorMessage = "Passwords don't match";
+                          });
+                        }
+                        if (!error) {
+                          await signup(emailController.text.trim(),
+                                  passwordController.text)
+                              .then((value) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/completeSignup',
+                                (Route<dynamic> route) => false);
+                          });
+                        }
                       } catch (e) {
                         print(e.toString());
+                        setState(() {
+                          error = true;
+                          List l = e.toString().split("]");
+                          errorMessage = l[1];
+                        });
                       }
                     },
                     child: Text("Sign up")),
+                if (error)
+                  Center(
+                      child: Text(
+                    "Error:${errorMessage}",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ))
               ],
             ),
           ),

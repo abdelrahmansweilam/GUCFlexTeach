@@ -15,9 +15,7 @@ class CompleteSignupScreen extends StatefulWidget {
 class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController appIDController = TextEditingController();
-  //TODO get List of Majors From DB
   List<String> majorsList = [];
-  //TODO get List of Courses from DB according to Major
   List<String> courses = [];
   List<bool> coursesSelection = [];
 
