@@ -2,6 +2,8 @@
 
 import 'package:flexteach/Routes/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -78,5 +80,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void login() {}
+  void login() async{
+    var email = emailController.text.trim();
+var password = passwordController.text.trim();
+    UserCredential authResult;
+  authResult = await authenticationInstance.signInWithEmailAndPassword(
+email: email,
+password: password,
+);}
 }
