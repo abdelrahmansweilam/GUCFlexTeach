@@ -236,8 +236,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Due Assignments Tab
                 isInstructor
-                    ? Tab(icon: assignment_icon)
-                    : Tab(icon: Icon(Icons.add)),
+                    ? Tab(icon: Icon(Icons.add))
+                    : Tab(icon: assignment_icon),
               ],
             ),
           ),
