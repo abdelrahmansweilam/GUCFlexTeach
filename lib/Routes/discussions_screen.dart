@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import '../Models/course.dart';
 import 'package:flexteach/Widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flexteach/Providers/user_info_provider.dart';
+import '../Functions/course_description.dart';
 
 class DiscussionsScreen extends StatefulWidget {
   const DiscussionsScreen({Key? key}) : super(key: key);
@@ -11,21 +15,25 @@ class DiscussionsScreen extends StatefulWidget {
 }
 
 class _DiscussionsScreenState extends State<DiscussionsScreen> {
-  var coursesList;
-
-  Future<void> getMyCourses() async {
-    // await coursesList = get from DB
-    coursesList = ["CSEN1114", "CSEN901"];
-  }
+  List<Course> coursesDescriptionList = [];
 
   @override
   void initState() {
-    getMyCourses();
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final coursesList = userInfoProvider.getCourses;
+    getCoursesDescriptionList(coursesList);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final coursesList = userInfoProvider.getCourses;
     return Column(children: [
       Container(
         margin: EdgeInsets.all(10),
@@ -51,21 +59,29 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
         itemBuilder: (ctx, index) {
           return ListTile(
             title: Text(
-              coursesList[index],
+              coursesDescriptionList[index].code,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            subtitle: Text("Course Name"),
+            subtitle: Text(coursesDescriptionList[index].name),
             onTap: () {
               Navigator.of(context).pushNamed("/courseDiscussionsRoute",
-                  arguments: {"course": coursesList[index]});
+                  arguments: {"course": coursesDescriptionList[index].code});
             },
             trailing: Platform.isIOS
                 ? Icon(Icons.arrow_forward_ios)
                 : Icon(Icons.arrow_forward),
           );
         },
-        itemCount: coursesList.length,
+        itemCount: coursesDescriptionList.length,
       ),
     ]);
+  }
+
+  void getCoursesDescriptionList(coursesList) async {
+    List<Course> courseDesciptionListAsync =
+        await getCoursesDescription(coursesList);
+    setState(() {
+      coursesDescriptionList = courseDesciptionListAsync;
+    });
   }
 }

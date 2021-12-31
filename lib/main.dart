@@ -10,6 +10,7 @@ import 'Routes/course_discussion_screen.dart';
 import 'Routes/course_screen.dart';
 import 'Routes/profile_screen.dart';
 import 'Routes/home_page.dart';
+import 'Routes/discussion_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
             '/profileRoute': (ctx) => ProfileScreen(),
             '/courseRoute': (ctx) => CourseScreen(),
             "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
+            '/discussionRoute': (ctx) => DiscussionScreen()
           },
         ));
   }

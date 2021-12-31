@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import '../Models/discussion.dart';
 import 'package:flutter/material.dart';
+import '../Functions/course_discussions.dart';
 
 class CourseDiscussionScreen extends StatefulWidget {
   @override
@@ -6,18 +10,20 @@ class CourseDiscussionScreen extends StatefulWidget {
 }
 
 class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
-  List<String> instructors = [];
-  var discussions;
-  Future<void> getCourseInfo() async {
-    //await course info from DB
-    instructors = ["Dr. x", "TA y"];
-    discussions = [];
-  }
+  List<Discussion> discussions = [];
 
   @override
   void initState() {
-    getCourseInfo();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final courseName = routeArgs["course"];
+    getCoursesDiscussionsList(courseName);
   }
 
   @override
@@ -37,7 +43,7 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
             margin: EdgeInsets.all(10),
             width: double.infinity,
             child: const Text(
-              "Instructors",
+              "Discussions",
               softWrap: true,
               overflow: TextOverflow.fade,
               style: TextStyle(
@@ -47,20 +53,46 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
               textAlign: TextAlign.left,
             ),
           ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(
+              height: 1,
+              thickness: 2,
+            ),
             itemBuilder: (ctx, index) {
-              return Text(instructors[index],
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(color: Colors.black, fontSize: 30),
-                  textAlign: TextAlign.left);
+              return ListTile(
+                  title: Text(
+                    discussions[index].title,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(discussions[index].body),
+                  onTap: () {
+                    Navigator.of(context).pushNamed("/discussionRoute",
+                        arguments: {"discussionId": discussions[index].id});
+                  },
+                  trailing: discussions[index].open
+                      ? Icon(Icons.arrow_forward)
+                      : Icon(
+                          Icons.check,
+                          color: Colors.green,
+                          size: 40,
+                        ));
             },
-            itemCount: instructors.length,
+            itemCount: discussions.length,
           ),
         ],
       ),
     );
+  }
+
+  void getCoursesDiscussionsList(String courseName) async {
+    List<Discussion> courseDiscussionsListAsync =
+        await getCoursesDiscussions(courseName);
+    setState(() {
+      discussions = courseDiscussionsListAsync;
+      print(discussions);
+    });
   }
 }
