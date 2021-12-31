@@ -83,7 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   obscureText: _isObscureConfirmPassword,
                 ),
                 ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       try {
                         error = false;
                         if (passwordController.text !=
@@ -94,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           });
                         }
                         if (!error) {
-                          await signup(emailController.text.trim(),
+                          signup(emailController.text.trim(),
                                   passwordController.text)
                               .then((value) {
                             Navigator.of(context).pushNamedAndRemoveUntil(

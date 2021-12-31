@@ -64,8 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: _isObscurePassword,
               ),
               ElevatedButton(
-                onPressed: () async {
-                  await login(emailController.text.trim(),
+                onPressed: () {
+                  login(emailController.text.trim(),
                           passwordController.text.trim())
                       .then((value) {
                     Navigator.of(context).pushNamedAndRemoveUntil(

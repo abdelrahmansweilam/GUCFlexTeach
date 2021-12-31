@@ -6,6 +6,7 @@ import 'dart:io' show Platform;
 
 import 'package:flexteach/Assets/icons.dart';
 import 'package:provider/provider.dart';
+import 'add_assignments_screen.dart';
 import 'courses_screen.dart';
 import 'notifications_screen.dart';
 import 'assignments_screen.dart';
@@ -44,6 +45,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final userInfoProvider = Provider.of<UserInfoProvider>(context);
     final name = userInfoProvider.getName;
+    final isInstructor = userInfoProvider.getIsInstructor;
+    if (isInstructor)
+      List<Widget> tabsScreens = [
+        DiscussionsScreen(),
+        CoursesScreen(),
+        NotificationsScreen(),
+        AddAssignmentsScreen(),
+      ];
     if (Platform.isIOS) {
       //iOS Code
       return Scaffold(
@@ -71,13 +80,14 @@ class _HomePageState extends State<HomePage> {
                 height: 1,
                 thickness: 2,
               ),
-              ListTile(
-                title: const Text('My Discussions'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
+              if (!isInstructor)
+                ListTile(
+                  title: const Text('My Discussions'),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
               const Divider(
                 height: 1,
                 thickness: 2,
@@ -129,8 +139,11 @@ class _HomePageState extends State<HomePage> {
                   size: 36,
                 ),
                 label: 'Notifications'),
-            BottomNavigationBarItem(
-                icon: assignment_icon, label: 'Assignments'),
+            isInstructor
+                ? BottomNavigationBarItem(
+                    icon: Icon(Icons.add), label: 'Notify')
+                : BottomNavigationBarItem(
+                    icon: assignment_icon, label: 'Assignments')
           ],
           currentIndex: selectedTabIndex,
           onTap: switchPage,
@@ -222,7 +235,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 // Due Assignments Tab
-                Tab(icon: assignment_icon),
+                isInstructor
+                    ? Tab(icon: assignment_icon)
+                    : Tab(icon: Icon(Icons.add)),
               ],
             ),
           ),
@@ -231,7 +246,7 @@ class _HomePageState extends State<HomePage> {
               DiscussionsScreen(),
               CoursesScreen(),
               NotificationsScreen(),
-              AssignmentsScreen()
+              isInstructor ? AddAssignmentsScreen() : AssignmentsScreen()
             ],
           ),
         ),
