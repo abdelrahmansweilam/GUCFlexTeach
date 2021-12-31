@@ -1,5 +1,7 @@
 import 'package:flexteach/Widgets/course_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flexteach/Providers/user_info_provider.dart';
 
 class CoursesScreen extends StatefulWidget {
   const CoursesScreen({Key? key}) : super(key: key);
@@ -24,6 +26,8 @@ class _CoursesScreenState extends State<CoursesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final coursesList = userInfoProvider.getCourses;
     return Column(children: [
       Container(
         margin: EdgeInsets.all(10),
