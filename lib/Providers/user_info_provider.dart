@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class UserInfoProvider with ChangeNotifier {
   String appID = '';
-  List<String> courses = [];
+  List<dynamic> courses = [];
   bool isInstructor = false;
   String major = '';
   String name = '';
@@ -14,6 +14,9 @@ class UserInfoProvider with ChangeNotifier {
     if (docSnapshot.exists) {
       Map<String, dynamic>? data = docSnapshot.data();
       appID = data?['app_id'];
+      courses = data?['courses'];
+      isInstructor = data?['isInstructor'];
+      major = data?['major'];
       name = data?['name'];
     }
     notifyListeners();
@@ -23,7 +26,7 @@ class UserInfoProvider with ChangeNotifier {
     return appID;
   }
 
-  List<String> get getCourses {
+  List<dynamic> get getCourses {
     return courses;
   }
 
