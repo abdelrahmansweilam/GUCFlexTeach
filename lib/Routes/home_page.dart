@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flexteach/Providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'dart:io' show Platform;
 
 import 'package:flexteach/Assets/icons.dart';
+import 'package:provider/provider.dart';
 import 'courses_screen.dart';
 import 'notifications_screen.dart';
 import 'assignments_screen.dart';
@@ -19,10 +20,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Widget> tabsScreens = [
-    DiscussionsScreen(),
-    CoursesScreen(),
-    NotificationsScreen(),
-    AssignmentsScreen(),
+    const DiscussionsScreen(),
+    const CoursesScreen(),
+    const NotificationsScreen(),
+    const AssignmentsScreen(),
   ];
   var selectedTabIndex = 0;
   void switchPage(int index) {
@@ -32,7 +33,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    var currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    var myProvider = Provider.of<UserInfoProvider>(context, listen: false);
+    myProvider.fetchUserInfoFromServer(currentUserId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    final name = userInfoProvider.getName;
     if (Platform.isIOS) {
       //iOS Code
       return Scaffold(
@@ -41,12 +52,12 @@ class _HomePageState extends State<HomePage> {
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: Colors.red,
                 ),
                 child: Text(
-                  "Username goes here!!",
+                  name,
                   style: TextStyle(),
                 ),
               ),
@@ -75,6 +86,8 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Logout'),
                 onTap: () {
                   FirebaseAuth.instance.signOut();
+                  // '/' must stay in the stack for the user
+                  // to be able to login again
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       '/', (Route<dynamic> route) => false);
                 },
@@ -133,12 +146,12 @@ class _HomePageState extends State<HomePage> {
               // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
               children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
+                DrawerHeader(
+                  decoration: const BoxDecoration(
                     color: Colors.red,
                   ),
                   child: Text(
-                    "Username goes here!!",
+                    name,
                     style: TextStyle(),
                   ),
                 ),
