@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoProvider with ChangeNotifier {
@@ -7,12 +8,14 @@ class UserInfoProvider with ChangeNotifier {
   String major = '';
   String name = '';
 
-  void setInfo(String id, List<String> c, bool inst, String m, String n) {
-    appID = id;
-    courses = c;
-    isInstructor = inst;
-    major = m;
-    name = n;
+  Future<void> fetchUserInfoFromServer(var currentUserId) async {
+    var collection = FirebaseFirestore.instance.collection('users');
+    var docSnapshot = await collection.doc(currentUserId).get();
+    if (docSnapshot.exists) {
+      Map<String, dynamic>? data = docSnapshot.data();
+      appID = data?['app_id'];
+      name = data?['name'];
+    }
     notifyListeners();
   }
 
@@ -24,7 +27,7 @@ class UserInfoProvider with ChangeNotifier {
     return courses;
   }
 
-  bool get instructor {
+  bool get getIsInstructor {
     return isInstructor;
   }
 
