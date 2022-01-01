@@ -26,7 +26,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Container(
             padding: EdgeInsets.only(top: 50, left: 10, right: 10, bottom: 10),
             alignment: Alignment.center,
-            child: Column(children: [
+            child: SingleChildScrollView(
+                child: Column(children: [
               const CircleAvatar(
                 radius: 100,
                 // user's profile pic if present
@@ -95,6 +96,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 itemCount: coursesList.length,
               ),
-            ])));
+            ]))));
   }
 }
