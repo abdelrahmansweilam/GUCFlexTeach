@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../Functions/discussion.dart';
-
-import '../Models/discussion.dart';
 import 'package:flutter/material.dart';
+
+import '../Functions/discussion.dart';
+import '../Models/discussion.dart';
+import '../Models/reply.dart';
 
 class DiscussionScreen extends StatefulWidget {
   @override
@@ -20,6 +21,8 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
       timestamp: Timestamp.now(),
       title: "",
       userId: "");
+  String name = '';
+  List<Reply> replies = [];
   @override
   void initState() {
     super.initState();
@@ -36,9 +39,6 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final discussionId = routeArgs["discussionId"];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -51,7 +51,11 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
             elevation: 5,
             margin: const EdgeInsets.all(10),
             child: Column(
-              children: [Text(discussion.title), Text(discussion.body)],
+              children: [
+                Text(discussion.title),
+                Text(discussion.body),
+                Text(name)
+              ],
             ),
           ),
         ));
@@ -59,8 +63,13 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
 
   void getDiscussionAsync(discussionId) async {
     Discussion discussionAsync = await getDiscussion(discussionId);
+    String nameAsync = await getUserName(discussionAsync.userId);
+    List<Reply> repliesAsync = await getReplies(discussionAsync.replies);
+    
     setState(() {
       discussion = discussionAsync;
+      name = nameAsync;
+      replies = repliesAsync;
     });
   }
 }
