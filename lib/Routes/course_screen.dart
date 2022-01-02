@@ -1,3 +1,6 @@
+import 'package:flexteach/Functions/course_description.dart';
+
+import '../Models/course.dart';
 import 'package:flutter/material.dart';
 
 class CourseScreen extends StatefulWidget {
@@ -7,31 +10,42 @@ class CourseScreen extends StatefulWidget {
 
 class _CourseScreenState extends State<CourseScreen> {
   List<String> instructors = [];
+  String courseName = '';
+
   var discussions;
-  Future<void> getCourseInfo() async {
-    //await course info from DB
-    instructors = ["Dr. x", "TA y"];
-    discussions = [];
-  }
 
   @override
   void initState() {
-    getCourseInfo();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final courseCode = routeArgs["course"];
+    getCourseInfoAsync(courseCode);
   }
 
   @override
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final courseName = routeArgs["course"];
-
+    final courseCode = routeArgs["course"];
     return Scaffold(
       appBar: AppBar(
-        title: Text(courseName!),
+        title: Text(courseCode),
       ),
       body: Column(
         children: [
+          Container(
+              margin: EdgeInsets.all(10),
+              width: double.infinity,
+              child: Text(
+                "Course name:" + '\n' + courseName,
+                style: TextStyle(fontSize: 18),
+              )),
           Container(
             margin: EdgeInsets.all(10),
             width: double.infinity,
@@ -50,16 +64,32 @@ class _CourseScreenState extends State<CourseScreen> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (ctx, index) {
-              return Text(instructors[index],
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(color: Colors.black, fontSize: 30),
-                  textAlign: TextAlign.left);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(instructors[index],
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    textAlign: TextAlign.left),
+              );
             },
             itemCount: instructors.length,
           ),
         ],
       ),
     );
+  }
+
+  void getCourseInfoAsync(courseCode) async {
+    Course course = await getCourseDetails(courseCode);
+    for (dynamic instructor in course.instructors) {
+      instructors.add(instructor.toString());
+    }
+    setState(() {
+      instructors = instructors;
+      courseName = course.name;
+      courseCode = course.code;
+      print(courseCode);
+    });
   }
 }

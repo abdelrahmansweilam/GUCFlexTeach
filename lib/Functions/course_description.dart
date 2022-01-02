@@ -28,3 +28,29 @@ Future<List<Course>> getCoursesDescription(List<dynamic> coursesCodes) async {
   print(courses);
   return courses;
 }
+
+Future<Course> getCourseDetails(String courseCode) async {
+  Course newCourse = Course(code: '', name: '', instructors: [], deadlines: []);
+  try {
+    await FirebaseFirestore.instance
+        .collection("courses")
+        .where('code', isEqualTo: courseCode)
+        .limit(1)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((doc) {
+        newCourse = Course(
+            code: doc['code'],
+            name: doc['name'],
+            deadlines: doc['deadlines'],
+            instructors: doc['instructors']);
+      });
+    });
+  } catch (e) {
+    print(e.toString());
+    rethrow;
+  }
+
+  print(newCourse);
+  return newCourse;
+}
