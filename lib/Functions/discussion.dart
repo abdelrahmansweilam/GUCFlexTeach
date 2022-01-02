@@ -94,3 +94,5 @@ Future<List<Reply>> getReplies(List<dynamic> repliesIdsDynamic) async {
   }
   return replies;
 }
+
+Future sendReply(String discussionId, String replyText, String userId) async {}
