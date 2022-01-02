@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 
 import '../Models/discussion.dart';
-import 'package:flutter/material.dart';
-import '../Functions/course_discussions.dart';
+import '../Backend/course_discussions.dart';
 
 class CourseDiscussionScreen extends StatefulWidget {
   @override

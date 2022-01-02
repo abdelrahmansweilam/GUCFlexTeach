@@ -1,11 +1,10 @@
 import 'dart:io';
-
-import '../Models/course.dart';
-import 'package:flexteach/Widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flexteach/Providers/user_info_provider.dart';
-import '../Functions/course_description.dart';
+
+import '../Models/course.dart';
+import '../Providers/user_info_provider.dart';
+import '../Backend/course_description.dart';
 
 class DiscussionsScreen extends StatefulWidget {
   const DiscussionsScreen({Key? key}) : super(key: key);

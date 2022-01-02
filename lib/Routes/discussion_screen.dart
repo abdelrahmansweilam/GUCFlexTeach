@@ -1,12 +1,9 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import '../Functions/discussion.dart';
+import '../Backend/discussion.dart';
 import '../Models/discussion.dart';
 import '../Models/reply.dart';
 

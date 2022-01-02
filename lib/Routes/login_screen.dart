@@ -1,10 +1,6 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 
-import 'package:flexteach/Functions/user_auth.dart';
-import 'package:flexteach/Routes/signup_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../Backend/user_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flexteach/Providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
@@ -38,6 +39,17 @@ class _HomePageState extends State<HomePage> {
     var currentUserId = FirebaseAuth.instance.currentUser!.uid;
     var myProvider = Provider.of<UserInfoProvider>(context, listen: false);
     myProvider.fetchUserInfoFromServer(currentUserId);
+    var fcm = FirebaseMessaging.instance;
+    fcm.requestPermission();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+// only shows on ios
     super.initState();
   }
 

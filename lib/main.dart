@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+
 import 'Providers/user_info_provider.dart';
 import 'Routes/login_screen.dart';
 import 'Routes/complete_signup_screen.dart';
@@ -12,7 +15,16 @@ import 'Routes/profile_screen.dart';
 import 'Routes/home_page.dart';
 import 'Routes/discussion_screen.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.notification!.body}");
+}
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 

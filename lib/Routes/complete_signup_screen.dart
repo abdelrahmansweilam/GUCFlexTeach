@@ -1,9 +1,7 @@
-// ignore_for_file: file_names
-
-import 'package:flexteach/Functions/user_auth.dart';
-
-import '../Functions/majors_courses.dart';
 import 'package:flutter/material.dart';
+
+import '../Backend/user_auth.dart';
+import '../Backend/majors_courses.dart';
 
 class CompleteSignupScreen extends StatefulWidget {
   const CompleteSignupScreen({Key? key}) : super(key: key);

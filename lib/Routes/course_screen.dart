@@ -1,7 +1,7 @@
-import 'package:flexteach/Functions/course_description.dart';
-
-import '../Models/course.dart';
 import 'package:flutter/material.dart';
+
+import '../Backend/course_description.dart';
+import '../Models/course.dart';
 
 class CourseScreen extends StatefulWidget {
   @override
@@ -13,11 +13,6 @@ class _CourseScreenState extends State<CourseScreen> {
   String courseName = '';
 
   var discussions;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
