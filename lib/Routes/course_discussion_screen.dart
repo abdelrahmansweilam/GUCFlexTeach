@@ -73,7 +73,9 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
                         arguments: {"discussionId": discussions[index].id});
                   },
                   trailing: discussions[index].open
-                      ? Icon(Icons.arrow_forward)
+                      ? Platform.isIOS
+                          ? Icon(Icons.arrow_forward_ios)
+                          : Icon(Icons.arrow_forward)
                       : Icon(
                           Icons.check,
                           color: Colors.green,
