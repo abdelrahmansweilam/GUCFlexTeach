@@ -11,7 +11,18 @@ class CourseDiscussionScreen extends StatefulWidget {
 
 class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
   List<Discussion> discussions = [];
-
+  final errorSnackBar = const SnackBar(
+    backgroundColor: Colors.red,
+    content: Text('Error: All the input fields required.'),
+  );
+  final dateErrorSnackBar = const SnackBar(
+    backgroundColor: Colors.red,
+    content: Text('Error: A deadline must have a selected date and time.'),
+  );
+  final successSnackBar = const SnackBar(
+    backgroundColor: Colors.green,
+    content: Text('Success!!'),
+  );
   @override
   void initState() {
     super.initState();
@@ -31,28 +42,80 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final courseName = routeArgs["course"];
+    TextEditingController titleController = TextEditingController();
+    TextEditingController bodyController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(courseName! + "'s Discussions"),
         backgroundColor: Colors.red,
+        actions: [
+          IconButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25.0))),
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            'Add a Discussion to ' + courseName,
+                            softWrap: true,
+                            overflow: TextOverflow.fade,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(
+                                labelText: "Discussion Title"),
+                            controller: titleController,
+                            keyboardType: TextInputType.text,
+                          ),
+                          TextField(
+                            decoration:
+                                const InputDecoration(labelText: "Discussion"),
+                            controller: bodyController,
+                            keyboardType: TextInputType.text,
+                          ),
+                          ElevatedButton(
+                            child: const Text('Add'),
+                            onPressed: () => Navigator.pop(context),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.create))
+        ],
       ),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.all(10),
-            width: double.infinity,
-            child: const Text(
-              "Discussions",
-              softWrap: true,
-              overflow: TextOverflow.fade,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.all(10),
+          //   width: double.infinity,
+          //   child: const Text(
+          //     "Discussions",
+          //     softWrap: true,
+          //     overflow: TextOverflow.fade,
+          //     style: TextStyle(
+          //       fontSize: 28,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
           ListView.separated(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -65,7 +128,8 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
               return ListTile(
                   title: Text(
                     discussions[index].title,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(discussions[index].body),
                   onTap: () {
@@ -74,9 +138,9 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
                   },
                   trailing: discussions[index].open
                       ? Platform.isIOS
-                          ? Icon(Icons.arrow_forward_ios)
-                          : Icon(Icons.arrow_forward)
-                      : Icon(
+                          ? const Icon(Icons.arrow_forward_ios)
+                          : const Icon(Icons.arrow_forward)
+                      : const Icon(
                           Icons.check,
                           color: Colors.green,
                           size: 40,

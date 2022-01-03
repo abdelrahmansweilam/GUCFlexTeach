@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../Models/reply.dart';
 import '../Models/discussion.dart';
 
@@ -119,14 +120,13 @@ Future<Map<String, String>> getUserNames(List<String> usersIds) async {
   return (result);
 }
 
-Future<void> addDiscussion(
-    String body, String title, String course, String userId) async {
+Future<void> addDiscussion(String title, String body, String course) async {
   try {
     await FirebaseFirestore.instance.collection('discussions').add({
       'title': title,
       'body': body,
       'course': course,
-      'user_id': userId,
+      'user_id': FirebaseAuth.instance.currentUser!.uid,
       'replies': [],
       'open': true,
       'time_stamp': Timestamp.now()

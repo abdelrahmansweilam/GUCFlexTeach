@@ -31,11 +31,9 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfoProvider = Provider.of<UserInfoProvider>(context);
-    final coursesList = userInfoProvider.getCourses;
     return Column(children: [
       Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: double.infinity,
         child: const Text(
           "Courses' Discussions",
@@ -59,7 +57,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
           return ListTile(
             title: Text(
               coursesDescriptionList[index].code,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             subtitle: Text(coursesDescriptionList[index].name),
             onTap: () {
@@ -67,8 +65,8 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                   arguments: {"course": coursesDescriptionList[index].code});
             },
             trailing: Platform.isIOS
-                ? Icon(Icons.arrow_forward_ios)
-                : Icon(Icons.arrow_forward),
+                ? const Icon(Icons.arrow_forward_ios)
+                : const Icon(Icons.arrow_forward),
           );
         },
         itemCount: coursesDescriptionList.length,

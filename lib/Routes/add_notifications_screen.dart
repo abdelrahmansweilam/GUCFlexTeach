@@ -41,9 +41,9 @@ class _AddNotificationsScreenState extends State<AddNotificationsScreen> {
     setState(() {
       courses = [];
       courses.add("Course");
-      userInfoProvider.getCourses.forEach((element) {
+      for (var element in userInfoProvider.getCourses) {
         courses.add(element);
-      });
+      }
     });
     super.initState();
   }
