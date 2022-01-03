@@ -27,6 +27,10 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
   TextEditingController replyController = TextEditingController();
   Map<String, String> userIdsAndNames = {};
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final successSnackBar = const SnackBar(
+    backgroundColor: Colors.green,
+    content: Text('Discussion deleted successfully!'),
+  );
   @override
   void initState() {
     super.initState();
@@ -64,12 +68,43 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                       trailing: discussion.userId ==
                               FirebaseAuth.instance.currentUser!.uid
                           ? IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Confirmation Required'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this discussion ?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          deleteDiscussion(discussion.id)
+                                              .then((value) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(successSnackBar);
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                               icon: const Icon(
                                 Icons.delete_rounded,
                                 size: 50,
                                 color: Colors.red,
-                              ))
+                              ),
+                            )
                           : const SizedBox(
                               width: 1,
                               height: 1,
