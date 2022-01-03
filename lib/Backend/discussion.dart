@@ -96,6 +96,7 @@ Future<List<Reply>> getReplies(List<dynamic> repliesIdsDynamic) async {
 }
 
 Future sendReply(String discussionId, String replyText, String userId) async {}
+
 Future<Map<String, String>> getUserNames(List<String> usersIds) async {
   Map<String, String> result = {};
   for (String user in usersIds) {
