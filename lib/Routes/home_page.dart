@@ -113,8 +113,7 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: const Text('My Discussions'),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                    Navigator.of(context).pushNamed('/mydiscussions');
                   },
                 ),
               const Divider(
@@ -214,8 +213,7 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: const Text('My Discussions'),
                   onTap: () {
-                    // Update the state of the app.
-                    // ...
+                    Navigator.of(context).pushNamed('/mydiscussions');
                   },
                 ),
                 const Divider(

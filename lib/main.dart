@@ -7,6 +7,7 @@ import 'Providers/user_info_provider.dart';
 import 'Routes/login_screen.dart';
 import 'Routes/complete_signup_screen.dart';
 import 'Routes/main_screen.dart';
+import 'Routes/profile_discussions.dart';
 import 'Routes/signup_screen.dart';
 import 'Routes/course_discussion_screen.dart';
 import 'Routes/course_screen.dart';
@@ -59,7 +60,8 @@ class _MyAppState extends State<MyApp> {
           '/profileRoute': (ctx) => ProfileScreen(),
           '/courseRoute': (ctx) => CourseScreen(),
           "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
-          '/discussionRoute': (ctx) => DiscussionScreen()
+          '/discussionRoute': (ctx) => DiscussionScreen(),
+          '/mydiscussions' : (ctx) => ProfileDiscussionsScreen()
         },
       ),
     );
