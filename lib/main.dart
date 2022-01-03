@@ -48,20 +48,21 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData(
           brightness: Brightness.dark,
           primarySwatch: Colors.red,
+          accentColor: Colors.red,
         ), // standard dark theme
         themeMode: ThemeMode.system, // device controls theme
         initialRoute: '/',
         routes: {
-          '/': (ctx) => MainScreen(),
-          '/homePage': (ctx) => HomePage(),
+          '/': (ctx) => const MainScreen(),
+          '/homePage': (ctx) => const HomePage(),
           '/loginRoute': (ctx) => LoginScreen(),
           '/register': (ctx) => SignupScreen(),
-          '/completeSignup': (ctx) => CompleteSignupScreen(),
-          '/profileRoute': (ctx) => ProfileScreen(),
+          '/completeSignup': (ctx) => const CompleteSignupScreen(),
+          '/profileRoute': (ctx) => const ProfileScreen(),
           '/courseRoute': (ctx) => CourseScreen(),
           "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
           '/discussionRoute': (ctx) => DiscussionScreen(),
-          '/mydiscussions' : (ctx) => ProfileDiscussionsScreen()
+          '/mydiscussions': (ctx) => ProfileDiscussionsScreen()
         },
       ),
     );

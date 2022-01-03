@@ -9,7 +9,8 @@ import '../Backend/user_discussions.dart';
 
 class ProfileDiscussionsScreen extends StatefulWidget {
   @override
-  State<ProfileDiscussionsScreen> createState() => _ProfileDiscussionsScreenState();
+  State<ProfileDiscussionsScreen> createState() =>
+      _ProfileDiscussionsScreenState();
 }
 
 class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
@@ -24,15 +25,13 @@ class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    AddDiscussions('body', 'title', 'course', userId);
+    // AddDiscussions('body', 'title', 'course', userId);
     getMyDiscussionsList(userId);
-
   }
 
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -96,11 +95,11 @@ class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
       discussions = courseDiscussionsListAsync;
       print(discussions);
     });
-    DeleteDiscussion(discussions[0].id);
-  }
-  
-  void AddDiscussions(String body, String title, String course, String userId) async{
-    await AddDiscussion(body , title , course , userId);
+    // deleteDiscussion(discussions[0].id);
   }
 
+  // void AddDiscussions(
+  //     String body, String title, String course, String userId) async {
+  //   await addDiscussion(body, title, course, userId);
+  // }
 }

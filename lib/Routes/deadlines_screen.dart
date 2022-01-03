@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flexteach/Backend/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +33,7 @@ class _DeadlinesScreenState extends State<DeadlinesScreen> {
           margin: const EdgeInsets.all(10),
           width: double.infinity,
           child: const Text(
-            "Due Assignments",
+            "Due Deadlines",
             softWrap: true,
             overflow: TextOverflow.fade,
             style: TextStyle(

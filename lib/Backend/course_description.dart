@@ -15,7 +15,6 @@ Future<List<Course>> getCoursesDescription(List<dynamic> coursesCodes) async {
           Course newCourse = Course(
               code: doc['code'],
               name: doc['name'],
-              deadlines: doc['deadlines'],
               instructors: doc['instructors']);
           courses.add(newCourse);
         });
@@ -30,7 +29,7 @@ Future<List<Course>> getCoursesDescription(List<dynamic> coursesCodes) async {
 }
 
 Future<Course> getCourseDetails(String courseCode) async {
-  Course newCourse = Course(code: '', name: '', instructors: [], deadlines: []);
+  Course newCourse = Course(code: '', name: '', instructors: []);
   try {
     await FirebaseFirestore.instance
         .collection("courses")
@@ -42,7 +41,6 @@ Future<Course> getCourseDetails(String courseCode) async {
         newCourse = Course(
             code: doc['code'],
             name: doc['name'],
-            deadlines: doc['deadlines'],
             instructors: doc['instructors']);
       });
     });

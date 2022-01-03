@@ -1,13 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flexteach/Providers/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
-import 'package:flexteach/Assets/icons.dart';
+import '../Assets/icons.dart';
 import 'package:provider/provider.dart';
-import 'add_deadlines_screen.dart';
+import 'add_notifications_screen.dart';
 import 'courses_screen.dart';
 import 'notifications_screen.dart';
 import 'deadlines_screen.dart';
@@ -21,7 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Widget> tabsScreens = [
+  List<Widget> tabsScreens = [
     const DiscussionsScreen(),
     const CoursesScreen(),
     const NotificationsScreen(),
@@ -60,10 +59,10 @@ class _HomePageState extends State<HomePage> {
             'Message also contained a notification: ${message.notification!.body}');
       }
     });
-    myProvider.getCourses.forEach((element) {
+    for (var element in myProvider.getCourses) {
       fcm.subscribeToTopic(element as String);
       print("Subscribed to " + element);
-    });
+    }
 
     super.initState();
   }
@@ -74,13 +73,14 @@ class _HomePageState extends State<HomePage> {
     final userInfoProvider = Provider.of<UserInfoProvider>(context);
     final name = userInfoProvider.getName;
     final isInstructor = userInfoProvider.getIsInstructor;
-    if (isInstructor)
-      List<Widget> tabsScreens = [
-        DiscussionsScreen(),
-        CoursesScreen(),
-        NotificationsScreen(),
-        AddDeadlinesScreen(),
+    if (isInstructor) {
+      tabsScreens = [
+        const DiscussionsScreen(),
+        const CoursesScreen(),
+        const NotificationsScreen(),
+        const AddNotificationsScreen(),
       ];
+    }
     // if (showNotification) displaySnackBar();
     if (Platform.isIOS) {
       //iOS Code
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Text(
                   name,
-                  style: TextStyle(),
+                  style: const TextStyle(),
                 ),
               ),
               ListTile(
@@ -121,12 +121,12 @@ class _HomePageState extends State<HomePage> {
                 thickness: 2,
               ),
               ListTile(
-                leading: Icon(Icons.logout),
+                leading: const Icon(Icons.logout),
                 title: const Text('Logout'),
                 onTap: () {
-                  userInfoProvider.getCourses.forEach((element) {
+                  for (var element in userInfoProvider.getCourses) {
                     fcm.unsubscribeFromTopic(element as String);
-                  });
+                  }
                   FirebaseAuth.instance.signOut();
                   // '/' must stay in the stack for the user
                   // to be able to login again
@@ -165,14 +165,14 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
                 icon: discussion_icon, label: 'Discussions'),
             BottomNavigationBarItem(icon: courses_icon, label: 'Courses'),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.notifications_none_outlined,
                   size: 36,
                 ),
                 label: 'Notifications'),
             isInstructor
-                ? BottomNavigationBarItem(
+                ? const BottomNavigationBarItem(
                     icon: Icon(Icons.add), label: 'Notify')
                 : BottomNavigationBarItem(
                     icon: assignment_icon, label: 'Assignments')
@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Text(
                     name,
-                    style: TextStyle(),
+                    style: const TextStyle(),
                   ),
                 ),
                 ListTile(
@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                   thickness: 2,
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout),
+                  leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
                     FirebaseAuth.instance.signOut();
@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                 // Courses Tab
                 Tab(icon: courses_icon),
                 // Notifications Tab
-                Tab(
+                const Tab(
                   icon: Icon(
                     Icons.notifications_none_outlined,
                     size: 36,
@@ -268,17 +268,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Due Assignments Tab
                 isInstructor
-                    ? Tab(icon: Icon(Icons.add))
+                    ? const Tab(icon: Icon(Icons.add))
                     : Tab(icon: assignment_icon),
               ],
             ),
           ),
           body: TabBarView(
             children: [
-              DiscussionsScreen(),
-              CoursesScreen(),
-              NotificationsScreen(),
-              isInstructor ? AddDeadlinesScreen() : DeadlinesScreen()
+              const DiscussionsScreen(),
+              const CoursesScreen(),
+              const NotificationsScreen(),
+              isInstructor
+                  ? const AddNotificationsScreen()
+                  : const DeadlinesScreen()
             ],
           ),
         ),

@@ -48,7 +48,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
           title: Text(name + "'s Discussion"),
           backgroundColor: Colors.red,
         ),
-        body: Container(
+        body: SizedBox(
           width: double.infinity,
           child: Column(
             children: [
@@ -61,30 +61,36 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      leading: Icon(
+                      trailing: discussion.userId ==
+                              FirebaseAuth.instance.currentUser!.uid
+                          ? IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.delete_rounded,
+                                size: 50,
+                                color: Colors.red,
+                              ))
+                          : const SizedBox(
+                              width: 1,
+                              height: 1,
+                            ),
+                      leading: const Icon(
                         Icons.account_circle_rounded,
                         size: 50,
                       ),
                       title: Text(
                         name,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                       subtitle: Text(DateFormat('yyyy-MM-dd kk:mm a')
                           .format(discussion.timestamp.toDate())),
-                      trailing: discussion.userId ==
-                              FirebaseAuth.instance.currentUser!.uid
-                          ? Icon(Icons.more_vert)
-                          : Container(
-                              width: 1,
-                              height: 1,
-                            ),
                     ),
-                    Divider(),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0),
                       child: Text(
                         discussion.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -92,7 +98,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
                       child: Text(
                         discussion.body,
-                        style: TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15),
                       ),
                     ),
                     Row(
@@ -103,14 +109,15 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                                 const EdgeInsets.fromLTRB(8.0, 8.0, 0, 8.0),
                             child: TextField(
                               controller: replyController,
-                              decoration: InputDecoration(hintText: 'Reply'),
+                              decoration:
+                                  const InputDecoration(hintText: 'Reply'),
                             ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 8.0, 8.0, 8.0),
                           child: IconButton(
-                            icon: Icon(Icons.reply_rounded),
+                            icon: const Icon(Icons.reply_rounded),
                             onPressed: () {
                               sendReply(discussion.id, replyController.text,
                                   FirebaseAuth.instance.currentUser!.uid);

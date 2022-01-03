@@ -119,21 +119,26 @@ Future<Map<String, String>> getUserNames(List<String> usersIds) async {
   return (result);
 }
 
-Future<void> AddDiscussion(String body, String title, String course, String userId) async{
+Future<void> addDiscussion(
+    String body, String title, String course, String userId) async {
   try {
-    await FirebaseFirestore.instance
-        .collection('discussions')
-        .add({'title' : title , 'body': body , 'course': course , 'user_id': userId , 'replies': [] , 'open': true , 'time_stamp': Timestamp.now()});
+    await FirebaseFirestore.instance.collection('discussions').add({
+      'title': title,
+      'body': body,
+      'course': course,
+      'user_id': userId,
+      'replies': [],
+      'open': true,
+      'time_stamp': Timestamp.now()
+    });
   } catch (e) {
     print(e.toString());
     rethrow;
   }
-
 }
 
-
-Future<void> DeleteDiscussion(String discussionId) async{
-  try{
+Future<void> deleteDiscussion(String discussionId) async {
+  try {
     await FirebaseFirestore.instance
         .collection('discussions')
         .doc(discussionId)
