@@ -30,7 +30,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
     final coursesList = userInfoProvider.getCourses;
     return Column(children: [
       Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: double.infinity,
         child: const Text(
           "Enrolled Courses",

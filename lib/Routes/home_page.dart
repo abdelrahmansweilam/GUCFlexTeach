@@ -7,10 +7,10 @@ import 'dart:io' show Platform;
 
 import 'package:flexteach/Assets/icons.dart';
 import 'package:provider/provider.dart';
-import 'add_assignments_screen.dart';
+import 'add_deadlines_screen.dart';
 import 'courses_screen.dart';
 import 'notifications_screen.dart';
-import 'assignments_screen.dart';
+import 'deadlines_screen.dart';
 import 'discussions_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,14 +25,19 @@ class _HomePageState extends State<HomePage> {
     const DiscussionsScreen(),
     const CoursesScreen(),
     const NotificationsScreen(),
-    const AssignmentsScreen(),
+    const DeadlinesScreen(),
   ];
+
   var selectedTabIndex = 0;
   void switchPage(int index) {
     setState(() {
       selectedTabIndex = index;
     });
   }
+
+  bool showNotification = false;
+  String notificationTitle = "";
+  String notificationBody = "";
 
   @override
   void initState() {
@@ -42,19 +47,30 @@ class _HomePageState extends State<HomePage> {
     var fcm = FirebaseMessaging.instance;
     fcm.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // setState(() {
+      //   showNotification = true;
+      //   notificationTitle = message.notification!.title!;
+      //   notificationBody = message.notification!.body!;
+      // });
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        print(
+            'Message also contained a notification: ${message.notification!.body}');
       }
     });
-// only shows on ios
+    myProvider.getCourses.forEach((element) {
+      fcm.subscribeToTopic(element as String);
+      print("Subscribed to " + element);
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var fcm = FirebaseMessaging.instance;
     final userInfoProvider = Provider.of<UserInfoProvider>(context);
     final name = userInfoProvider.getName;
     final isInstructor = userInfoProvider.getIsInstructor;
@@ -63,8 +79,9 @@ class _HomePageState extends State<HomePage> {
         DiscussionsScreen(),
         CoursesScreen(),
         NotificationsScreen(),
-        AddAssignmentsScreen(),
+        AddDeadlinesScreen(),
       ];
+    // if (showNotification) displaySnackBar();
     if (Platform.isIOS) {
       //iOS Code
       return Scaffold(
@@ -105,8 +122,12 @@ class _HomePageState extends State<HomePage> {
                 thickness: 2,
               ),
               ListTile(
+                leading: Icon(Icons.logout),
                 title: const Text('Logout'),
                 onTap: () {
+                  userInfoProvider.getCourses.forEach((element) {
+                    fcm.unsubscribeFromTopic(element as String);
+                  });
                   FirebaseAuth.instance.signOut();
                   // '/' must stay in the stack for the user
                   // to be able to login again
@@ -202,6 +223,7 @@ class _HomePageState extends State<HomePage> {
                   thickness: 2,
                 ),
                 ListTile(
+                  leading: Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
                     FirebaseAuth.instance.signOut();
@@ -258,11 +280,54 @@ class _HomePageState extends State<HomePage> {
               DiscussionsScreen(),
               CoursesScreen(),
               NotificationsScreen(),
-              isInstructor ? AddAssignmentsScreen() : AssignmentsScreen()
+              isInstructor ? AddDeadlinesScreen() : DeadlinesScreen()
             ],
           ),
         ),
       );
     }
+
+    //   Future<void> _showMyDialog() async {
+    // return showDialog<void>(
+    //   context: context,
+    //   barrierDismissible: false, // user must tap button!
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       title: Text(notificationTitle),
+    //       content: Text(notificationBody),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           child: const Text('Okay'),
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
+
+  // void displaySnackBar() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       duration: const Duration(days: 365),
+  //       content: ListTile(
+  //         leading: const Icon(Icons.notification_important),
+  //         title: Text(notificationTitle),
+  //         subtitle: Text(notificationBody),
+  //       ),
+  //       action: SnackBarAction(
+  //         label: "Dismiss",
+  //         onPressed: () {
+  //           setState(() {
+  //             showNotification = false;
+  //             notificationTitle = "";
+  //             notificationBody = "";
+  //           });
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 }

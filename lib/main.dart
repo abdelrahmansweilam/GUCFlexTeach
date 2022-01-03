@@ -39,29 +39,30 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (ctx) => UserInfoProvider(),
-        child: MaterialApp(
-          title: 'GUC FlexTeach',
-          theme: ThemeData(
-            primarySwatch: Colors.red,
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.red,
-          ), // standard dark theme
-          themeMode: ThemeMode.system, // device controls theme
-          initialRoute: '/',
-          routes: {
-            '/': (ctx) => MainScreen(),
-            '/homePage': (ctx) => HomePage(),
-            '/loginRoute': (ctx) => LoginScreen(),
-            '/register': (ctx) => SignupScreen(),
-            '/completeSignup': (ctx) => CompleteSignupScreen(),
-            '/profileRoute': (ctx) => ProfileScreen(),
-            '/courseRoute': (ctx) => CourseScreen(),
-            "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
-            '/discussionRoute': (ctx) => DiscussionScreen()
-          },
-        ));
+      create: (ctx) => UserInfoProvider(),
+      child: MaterialApp(
+        title: 'GUC FlexTeach',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.red,
+        ), // standard dark theme
+        themeMode: ThemeMode.system, // device controls theme
+        initialRoute: '/',
+        routes: {
+          '/': (ctx) => MainScreen(),
+          '/homePage': (ctx) => HomePage(),
+          '/loginRoute': (ctx) => LoginScreen(),
+          '/register': (ctx) => SignupScreen(),
+          '/completeSignup': (ctx) => CompleteSignupScreen(),
+          '/profileRoute': (ctx) => ProfileScreen(),
+          '/courseRoute': (ctx) => CourseScreen(),
+          "/courseDiscussionsRoute": (ctx) => CourseDiscussionScreen(),
+          '/discussionRoute': (ctx) => DiscussionScreen()
+        },
+      ),
+    );
   }
 }

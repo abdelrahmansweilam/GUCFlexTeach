@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: Text("Profile"),
         ),
         body: Container(
-            padding: EdgeInsets.only(top: 50, left: 10, right: 10, bottom: 10),
+            padding: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
             alignment: Alignment.center,
             child: SingleChildScrollView(
                 child: Column(children: [
