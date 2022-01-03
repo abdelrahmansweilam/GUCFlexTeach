@@ -134,7 +134,11 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
                   subtitle: Text(discussions[index].body),
                   onTap: () {
                     Navigator.of(context).pushNamed("/discussionRoute",
-                        arguments: {"discussionId": discussions[index].id});
+                        arguments: {
+                          "discussionId": discussions[index].id
+                        }).then((_) {
+                      getCoursesDiscussionsList(courseName);
+                    });
                   },
                   trailing: discussions[index].open
                       ? Platform.isIOS
