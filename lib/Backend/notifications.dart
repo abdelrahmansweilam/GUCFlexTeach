@@ -3,20 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Models/notification.dart';
 import '../Models/deadline.dart';
 
-Future<void> addDeadline(
-    String course_code, String title, Timestamp deadline_date) async {
+Future<void> addNotification(String course_code, String title, String body,
+    bool isDeadline, Timestamp deadline_date) async {
   try {
     await FirebaseFirestore.instance.collection('deadlines').add({
       'course_code': course_code,
       'title': title,
+      'body': body,
+      'isDeadline': isDeadline,
       'deadline_date': deadline_date,
       'time_created': Timestamp.now(),
     });
-    // await FirebaseFirestore.instance.collection('notifications').add({
-    //   'title': notification_title,
-    //   'body': notification_body,
-    //   'topic': course_code,
-    // });
   } catch (e) {
     print(e.toString());
     rethrow;
@@ -38,8 +35,8 @@ Future<List<UserNotification>> getUserNotifications(
           String notification_body =
               doc['title'] + " is now posted on the CMS.";
           UserNotification newNotification = UserNotification(
-            title: notification_title,
-            body: notification_body,
+            title: doc['title'],
+            body: doc['body'],
             topic: doc['course_code'],
             time_created: doc['time_created'],
           );
@@ -59,7 +56,7 @@ Future<List<Deadline>> getStudentDeadlines(List<dynamic> coursesCodes) async {
   try {
     await FirebaseFirestore.instance
         .collection("deadlines")
-        .orderBy("deadline_date", descending: false)
+        .where('isDeadline', isEqualTo: true)
         .get()
         .then((snapshot) {
       for (var doc in snapshot.docs) {
@@ -77,5 +74,8 @@ Future<List<Deadline>> getStudentDeadlines(List<dynamic> coursesCodes) async {
     print(e.toString());
     rethrow;
   }
+  result.sort((a, b) {
+    return a.compareTo(b);
+  });
   return result;
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flexteach/Backend/deadlines.dart';
+import 'package:flexteach/Backend/notifications.dart';
 import 'package:flexteach/Models/notification.dart';
 import '../Providers/user_info_provider.dart';
 
