@@ -64,7 +64,7 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
                 keyboardType: TextInputType.name,
               ),
               TextField(
-                decoration: InputDecoration(labelText: "Application ID"),
+                decoration: InputDecoration(labelText: "ID"),
                 controller: appIDController,
                 keyboardType: TextInputType.text,
               ),
@@ -165,7 +165,7 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
                     } else {
                       if (appIDController.text == '') {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            createSnackBar('Application ID must not be empty'));
+                            createSnackBar('ID must not be empty'));
                       } else {
                         if (!instructor && !student) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -179,7 +179,7 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
                             if (userCourses.length == 0) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   createSnackBar(
-                                      'You musr choose atleast one course'));
+                                      'You must choose atleast one course'));
                             } else {
                               try {
                                 await completeSignup(
