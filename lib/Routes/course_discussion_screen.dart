@@ -101,6 +101,7 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(successSnackBar);
                                     Navigator.pop(context);
+                                    getCoursesDiscussionsList(courseName);
                                   });
                                 } else {
                                   ScaffoldMessenger.of(context)
