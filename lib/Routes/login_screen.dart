@@ -14,6 +14,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SnackBar createSnackBar(String message) {
+      return SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(message),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -60,13 +67,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: _isObscurePassword,
               ),
               ElevatedButton(
-                onPressed: () {
-                  login(emailController.text.trim(),
-                          passwordController.text.trim())
-                      .then((value) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/', (Route<dynamic> route) => false);
-                  });
+                onPressed: () async {
+                  try {
+                    await login(emailController.text.trim(),
+                            passwordController.text.trim())
+                        .then((value) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/', (Route<dynamic> route) => false);
+                    });
+                  } catch (e) {
+                    List l = e.toString().split("]");
+                    String errorMessage = l[1];
+
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(createSnackBar(errorMessage));
+                  }
                 },
                 child: Text("Log in"),
               ),

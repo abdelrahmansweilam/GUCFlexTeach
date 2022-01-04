@@ -18,6 +18,13 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SnackBar createSnackBar(String message) {
+      return SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(message),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -83,18 +90,27 @@ class _SignupScreenState extends State<SignupScreen> {
                   obscureText: _isObscureConfirmPassword,
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       try {
                         error = false;
-                        if (passwordController.text !=
-                            confirmPasswordController.text) {
+                        if (emailController.text == '') {
                           setState(() {
                             error = true;
-                            errorMessage = "Passwords don't match";
+                            errorMessage = "Email can not be empty";
                           });
+                        } else {
+                          if (passwordController.text !=
+                              confirmPasswordController.text) {
+                            setState(() {
+                              error = true;
+                              errorMessage = "Passwords don't match";
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(createSnackBar(errorMessage));
+                            });
+                          }
                         }
                         if (!error) {
-                          signup(emailController.text.trim(),
+                          await signup(emailController.text.trim(),
                                   passwordController.text)
                               .then((value) {
                             Navigator.of(context).pushNamedAndRemoveUntil(
@@ -103,25 +119,17 @@ class _SignupScreenState extends State<SignupScreen> {
                           });
                         }
                       } catch (e) {
-                        print(e.toString());
-                        setState(() {
-                          error = true;
-                          List l = e.toString().split("]");
-                          errorMessage = l[1];
-                        });
+                        print("Caught");
+
+                        error = true;
+                        List l = e.toString().split("]");
+                        errorMessage = l[1];
+
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(createSnackBar(errorMessage));
                       }
                     },
                     child: Text("Sign up")),
-                if (error)
-                  Center(
-                      child: Text(
-                    "Error:${errorMessage}",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ))
               ],
             ),
           ),
