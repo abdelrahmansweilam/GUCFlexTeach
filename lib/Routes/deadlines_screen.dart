@@ -71,13 +71,15 @@ class _DeadlinesScreenState extends State<DeadlinesScreen> {
                               startDate:
                                   deadlines[index].deadline_date.toDate(),
                               endDate: deadlines[index].deadline_date.toDate(),
-                              //TODO Add reminder in IOS
-                              // iosParams: IOSParams(
-                              //   reminder: Duration(
-                              //       /* Ex. hours:1 */), // on iOS, you can set alarm notification after your event.
-                              // ),
+                              //iOS
+                              iosParams: const IOSParams(
+                                reminder: Duration(
+                                  hours: 1,
+                                ), // on iOS, you can set alarm notification after your event.
+                              ),
                             );
                             Add2Calendar.addEvent2Cal(event);
+                            Navigator.of(context).pop();
                           },
                           child: const Text('OK'),
                         ),
