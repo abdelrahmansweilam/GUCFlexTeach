@@ -64,8 +64,8 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
           title: Text(name + "'s Discussion"),
           backgroundColor: Colors.red,
         ),
-        body: Padding(
-          padding: MediaQuery.of(context).viewInsets,
+        body: SizedBox(
+          width: double.infinity,
           child: Column(
             children: [
               Card(
@@ -113,7 +113,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                               },
                               icon: const Icon(
                                 Icons.delete_rounded,
-                                size: 50,
+                                size: 35,
                                 color: Colors.red,
                               ),
                             )
@@ -188,6 +188,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                 ),
               ),
               ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (ctx, index) {
                   return Card(
