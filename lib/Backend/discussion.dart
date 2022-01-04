@@ -96,7 +96,37 @@ Future<List<Reply>> getReplies(List<dynamic> repliesIdsDynamic) async {
   return replies;
 }
 
-Future sendReply(String discussionId, String replyText, String userId) async {}
+Future sendReply(String discussionId, String replyText, String userId) async {
+  Discussion d = await getDiscussion(discussionId);
+
+  String? replyId;
+
+  try {
+    await FirebaseFirestore.instance.collection("replies").add({
+      'body': replyText,
+      'user_id': userId,
+      'time_stamp': Timestamp.now()
+    }).then((doc) {
+      replyId = doc.id;
+    });
+  } catch (e) {
+    print(e.toString());
+    rethrow;
+  }
+  d.replies.add(replyId);
+  print(d.replies.length);
+  try {
+    await FirebaseFirestore.instance
+        .collection("discussions")
+        .doc(discussionId)
+        .update({'replies': d.replies}).then((doc) {
+      print('Updated Successfully');
+    });
+  } catch (e) {
+    print(e.toString());
+    rethrow;
+  }
+}
 
 Future<Map<String, String>> getUserNames(List<String> usersIds) async {
   Map<String, String> result = {};
