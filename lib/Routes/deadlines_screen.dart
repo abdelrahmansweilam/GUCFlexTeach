@@ -50,18 +50,40 @@ class _DeadlinesScreenState extends State<DeadlinesScreen> {
             itemBuilder: (ctx, index) {
               return InkWell(
                 onDoubleTap: () {
-                  final Event event = Event(
-                    title: deadlines[index].course_code,
-                    description: deadlines[index].title,
-                    startDate: deadlines[index].deadline_date.toDate(),
-                    endDate: deadlines[index].deadline_date.toDate(),
-                  //TODO Add reminder in IOS
-                    // iosParams: IOSParams(
-                    //   reminder: Duration(
-                    //       /* Ex. hours:1 */), // on iOS, you can set alarm notification after your event.
-                    // ),
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Confirmation Required'),
+                      content: const Text(
+                          'Are you sure you want to add this deadline to your calendar?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final Event event = Event(
+                              title: deadlines[index].course_code,
+                              description: deadlines[index].title,
+                              startDate:
+                                  deadlines[index].deadline_date.toDate(),
+                              endDate: deadlines[index].deadline_date.toDate(),
+                              //TODO Add reminder in IOS
+                              // iosParams: IOSParams(
+                              //   reminder: Duration(
+                              //       /* Ex. hours:1 */), // on iOS, you can set alarm notification after your event.
+                              // ),
+                            );
+                            Add2Calendar.addEvent2Cal(event);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
                   );
-                  Add2Calendar.addEvent2Cal(event);
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
