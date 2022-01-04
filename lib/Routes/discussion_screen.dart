@@ -136,13 +136,13 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                     child: Text(
                       discussion.title,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
                     child: Text(
-                      discussion.body,
+                      "\n" + discussion.body,
                       style: const TextStyle(fontSize: 15),
                     ),
                   ),
@@ -187,19 +187,39 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
             ListView.builder(
               shrinkWrap: true,
               itemBuilder: (ctx, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  elevation: 2,
-                  margin: const EdgeInsets.all(2),
-                  child: ListTile(
-                    title: Text(userIdsAndNames[replies[index].userId]! +
-                        ":" +
-                        '\n' +
-                        replies[index].body),
-                    subtitle: Text(DateFormat('yyyy-MM-dd kk:mm a')
-                        .format(replies[index].timeStamp.toDate())),
-                    isThreeLine: true,
+                return Container(
+                  margin: EdgeInsets.all(5),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    elevation: 2,
+                    margin: const EdgeInsets.all(2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          leading: const Icon(
+                            Icons.account_circle_outlined,
+                            size: 50,
+                          ),
+                          title: Text(userIdsAndNames[replies[index].userId]!),
+                          subtitle: Text(
+                            DateFormat('yyyy-MM-dd kk:mm a')
+                                .format(replies[index].timeStamp.toDate()),
+                          ),
+                        ),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16.0, 0, 8.0, 8.0),
+                          child: Text(
+                            replies[index].body,
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

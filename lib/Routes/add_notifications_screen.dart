@@ -54,6 +54,8 @@ class _AddNotificationsScreenState extends State<AddNotificationsScreen> {
       child: Column(
         children: [
           Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             margin: const EdgeInsets.only(
                 top: 100, right: 15, left: 15, bottom: 15),
             elevation: 5,

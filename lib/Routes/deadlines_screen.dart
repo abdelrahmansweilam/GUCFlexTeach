@@ -48,6 +48,8 @@ class _DeadlinesScreenState extends State<DeadlinesScreen> {
             shrinkWrap: true,
             itemBuilder: (ctx, index) {
               return Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
                 child: ListTile(
                   leading: assignment_icon,
                   trailing: Text(

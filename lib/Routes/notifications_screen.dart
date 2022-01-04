@@ -46,6 +46,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             shrinkWrap: true,
             itemBuilder: (ctx, index) {
               return Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
                 child: ListTile(
                   leading: const Icon(
                     Icons.notification_important_rounded,
