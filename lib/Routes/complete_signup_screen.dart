@@ -29,6 +29,13 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SnackBar createSnackBar(String message) {
+      return SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(message),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -145,21 +152,57 @@ class _CompleteSignupScreenState extends State<CompleteSignupScreen> {
                         });
                   }),
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     List<String> userCourses = [];
                     for (var i = 0; i < coursesSelection.length; i++) {
                       if (coursesSelection[i] == true) {
                         userCourses.add(courses[i]);
                       }
                     }
-                    completeSignup(
-                        nameController.text.trimRight(),
-                        appIDController.text.trim(),
-                        instructor,
-                        major,
-                        userCourses);
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/homePage', (Route<dynamic> route) => false);
+                    if (nameController.text == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          createSnackBar('Name must not be empty'));
+                    } else {
+                      if (appIDController.text == '') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            createSnackBar('Application ID must not be empty'));
+                      } else {
+                        if (!instructor && !student) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              createSnackBar(
+                                  'Choose whether you are student or instructor'));
+                        } else {
+                          if (major == 'Major') {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(createSnackBar('Choose a major'));
+                          } else {
+                            if (userCourses.length == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  createSnackBar(
+                                      'You musr choose atleast one course'));
+                            } else {
+                              try {
+                                await completeSignup(
+                                    nameController.text.trimRight(),
+                                    appIDController.text.trim(),
+                                    instructor,
+                                    major,
+                                    userCourses);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/homePage',
+                                    (Route<dynamic> route) => false);
+                              } catch (e) {
+                                List l = e.toString().split("]");
+                                String errorMessage = l[1];
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(createSnackBar(errorMessage));
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   },
                   child: Text("Sign up")),
             ],
