@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flexteach/Backend/discussion.dart';
 import 'package:flutter/material.dart';
 
 import '../Models/discussion.dart';
@@ -21,7 +22,7 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
   );
   final successSnackBar = const SnackBar(
     backgroundColor: Colors.green,
-    content: Text('Success!!'),
+    content: Text('Your discussion has been added successfully!'),
   );
   @override
   void initState() {
@@ -61,37 +62,54 @@ class _CourseDiscussionScreenState extends State<CourseDiscussionScreen> {
                   builder: (BuildContext context) {
                     return Padding(
                       padding: MediaQuery.of(context).viewInsets,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            'Add a Discussion to ' + courseName,
-                            softWrap: true,
-                            overflow: TextOverflow.fade,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Add a Discussion to ' + courseName,
+                              softWrap: true,
+                              overflow: TextOverflow.fade,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
-                          ),
-                          TextField(
-                            decoration: const InputDecoration(
-                                labelText: "Discussion Title"),
-                            controller: titleController,
-                            keyboardType: TextInputType.text,
-                          ),
-                          TextField(
-                            decoration:
-                                const InputDecoration(labelText: "Discussion"),
-                            controller: bodyController,
-                            keyboardType: TextInputType.text,
-                          ),
-                          ElevatedButton(
-                            child: const Text('Add'),
-                            onPressed: () => Navigator.pop(context),
-                          )
-                        ],
+                            TextField(
+                              decoration: const InputDecoration(
+                                  labelText: "Discussion Title"),
+                              controller: titleController,
+                              keyboardType: TextInputType.text,
+                            ),
+                            TextField(
+                              decoration: const InputDecoration(
+                                  labelText: "Discussion Body"),
+                              controller: bodyController,
+                              keyboardType: TextInputType.text,
+                            ),
+                            ElevatedButton(
+                              child: const Text('Add'),
+                              onPressed: () {
+                                if (titleController.text != "" &&
+                                    bodyController.text != "") {
+                                  addDiscussion(titleController.text,
+                                          bodyController.text, courseName)
+                                      .then((value) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(successSnackBar);
+                                    Navigator.pop(context);
+                                  });
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(errorSnackBar);
+                                }
+                              },
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
