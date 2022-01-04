@@ -1,9 +1,8 @@
 import 'package:flexteach/Models/discussion.dart';
-import '../Models/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<List<Discussion>> getMyDiscussions(String userId) async {
- List<Discussion> discussions = [];
+  List<Discussion> discussions = [];
 
   try {
     await FirebaseFirestore.instance
@@ -22,7 +21,7 @@ Future<List<Discussion>> getMyDiscussions(String userId) async {
             title: doc['title'],
             userId: doc['user_id']);
         discussions.add(newDiscussion);
-      //  print(doc.reference.id);
+        //  print(doc.reference.id);
       });
     });
   } catch (e) {
@@ -32,7 +31,4 @@ Future<List<Discussion>> getMyDiscussions(String userId) async {
   print("object");
   print(discussions);
   return discussions;
-
-
-
 }

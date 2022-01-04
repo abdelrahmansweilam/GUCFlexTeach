@@ -50,7 +50,7 @@ class _AddNotificationsScreenState extends State<AddNotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         children: [
           Card(

@@ -20,12 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> tabsScreens = [
-    const DiscussionsScreen(),
-    const CoursesScreen(),
-    const NotificationsScreen(),
-    const DeadlinesScreen(),
-  ];
+  List<Widget> tabsScreens = [];
 
   var selectedTabIndex = 0;
   void switchPage(int index) {
@@ -41,8 +36,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     var currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    var myProvider = Provider.of<UserInfoProvider>(context, listen: false);
-    myProvider.fetchUserInfoFromServer(currentUserId);
+    var userInfoProvider =
+        Provider.of<UserInfoProvider>(context, listen: false);
+    userInfoProvider.fetchUserInfoFromServer(currentUserId);
     var fcm = FirebaseMessaging.instance;
     fcm.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -59,7 +55,7 @@ class _HomePageState extends State<HomePage> {
             'Message also contained a notification: ${message.notification!.body}');
       }
     });
-    for (var element in myProvider.getCourses) {
+    for (var element in userInfoProvider.getCourses) {
       fcm.subscribeToTopic(element as String);
       print("Subscribed to " + element);
     }
@@ -73,15 +69,26 @@ class _HomePageState extends State<HomePage> {
     final userInfoProvider = Provider.of<UserInfoProvider>(context);
     final name = userInfoProvider.getName;
     final isInstructor = userInfoProvider.getIsInstructor;
-    if (isInstructor) {
-      tabsScreens = [
-        const DiscussionsScreen(),
-        const CoursesScreen(),
-        const NotificationsScreen(),
-        const AddNotificationsScreen(),
-      ];
-    }
     // if (showNotification) displaySnackBar();
+    if (userInfoProvider.isInstructor) {
+      setState(() {
+        tabsScreens = [
+          const DiscussionsScreen(),
+          const CoursesScreen(),
+          const NotificationsScreen(),
+          const AddNotificationsScreen(),
+        ];
+      });
+    } else {
+      setState(() {
+        tabsScreens = [
+          const DiscussionsScreen(),
+          const CoursesScreen(),
+          const NotificationsScreen(),
+          const DeadlinesScreen()
+        ];
+      });
+    }
     if (Platform.isIOS) {
       //iOS Code
       return Scaffold(
@@ -100,26 +107,22 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ListTile(
+                leading: const Icon(Icons.account_circle_outlined),
                 title: const Text('Profile'),
                 onTap: () {
                   Navigator.of(context).pushNamed('/profileRoute');
                 },
               ),
-              const Divider(
-                height: 1,
-                thickness: 2,
-              ),
+              const Divider(),
               if (!isInstructor)
                 ListTile(
+                  leading: const Icon(Icons.archive_outlined),
                   title: const Text('My Discussions'),
                   onTap: () {
                     Navigator.of(context).pushNamed('/mydiscussions');
                   },
                 ),
-              const Divider(
-                height: 1,
-                thickness: 2,
-              ),
+              if (!isInstructor) const Divider(),
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('Logout'),
@@ -135,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ],
-          ), // Populate the Drawer in the next step.
+          ),
         ),
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -205,32 +208,28 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 ListTile(
+                  leading: const Icon(Icons.account_circle_outlined),
                   title: const Text('Profile'),
                   onTap: () {
                     Navigator.of(context).pushNamed('/profileRoute');
                   },
                 ),
-                const Divider(
-                  height: 1,
-                  thickness: 2,
-                ),
+                const Divider(),
                 ListTile(
+                  leading: const Icon(Icons.archive_outlined),
                   title: const Text('My Discussions'),
                   onTap: () {
                     Navigator.of(context).pushNamed('/mydiscussions');
                   },
                 ),
-                const Divider(
-                  height: 1,
-                  thickness: 2,
-                ),
+                const Divider(),
                 ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/loginRoute', (Route<dynamic> route) => false);
+                        '/', (Route<dynamic> route) => false);
                   },
                 ),
               ],

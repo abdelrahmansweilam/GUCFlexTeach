@@ -19,83 +19,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final major = userInfoProvider.getMajor;
     final name = userInfoProvider.getName;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text("Profile"),
-        ),
-        body: Container(
-            padding: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
-            alignment: Alignment.center,
-            child: SingleChildScrollView(
-                child: Column(children: [
-              const CircleAvatar(
-                radius: 100,
-                // user's profile pic if present
-                //foregroundImage: NetworkImage(userAvatarUrl),
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: const Text("Profile"),
+      ),
+      body: Container(
+        padding:
+            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            const CircleAvatar(
+              radius: 100,
+              // user's profile pic if present
+              //foregroundImage: NetworkImage(userAvatarUrl),
 
-                // generic avatar otherwise
-                backgroundImage: NetworkImage(
-                    "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"),
+              // generic avatar otherwise
+              backgroundImage: NetworkImage(
+                  "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"),
 
-                // alternatively, the user's intials could be used if they don't have a profile pic
-                //backgroundColor: Colors.grey.shade800,
-                //child: const Text('AH'),
+              // alternatively, the user's intials could be used if they don't have a profile pic
+              //backgroundColor: Colors.grey.shade800,
+              //child: const Text('AH'),
+            ),
+            Text("Name: " + name,
+                softWrap: true,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(fontSize: 30),
+                textAlign: TextAlign.left),
+            Text("ID: " + appID,
+                softWrap: true,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(fontSize: 30),
+                textAlign: TextAlign.left),
+            Text("Major: " + major,
+                softWrap: true,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(fontSize: 30),
+                textAlign: TextAlign.left),
+            Container(
+              margin: const EdgeInsets.all(10),
+              width: double.infinity,
+              child: const Text(
+                "Courses",
+                softWrap: true,
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.left,
               ),
-              Text("Name: " + name,
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(fontSize: 30),
-                  textAlign: TextAlign.left),
-              Text("ID: " + appID,
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(fontSize: 30),
-                  textAlign: TextAlign.left),
-              Text("Major: " + major,
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(fontSize: 30),
-                  textAlign: TextAlign.left),
-              Container(
-                margin: EdgeInsets.all(10),
-                width: double.infinity,
-                child: const Text(
-                  "Courses",
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                height: 1,
+                thickness: 2,
+              ),
+              itemBuilder: (ctx, index) {
+                return ListTile(
+                  title: Text(
+                    coursesList[index],
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  height: 1,
-                  thickness: 2,
-                ),
-                itemBuilder: (ctx, index) {
-                  return ListTile(
-                    title: Text(
-                      coursesList[index],
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed("/courseDiscussionsRoute",
-                          arguments: {"course": coursesList[index]});
-                    },
-                    trailing: Platform.isIOS
-                        ? Icon(Icons.arrow_forward_ios)
-                        : Icon(Icons.arrow_forward),
-                  );
-                },
-                itemCount: coursesList.length,
-              ),
-            ]))));
+                  onTap: () {
+                    Navigator.of(context).pushNamed("/courseRoute",
+                        arguments: {"course": coursesList[index]});
+                  },
+                  trailing: Platform.isIOS
+                      ? const Icon(Icons.arrow_forward_ios)
+                      : const Icon(Icons.arrow_forward),
+                );
+              },
+              itemCount: coursesList.length,
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }

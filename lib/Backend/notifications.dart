@@ -67,6 +67,33 @@ Future<List<UserNotification>> getUserNotifications(
   return result;
 }
 
+Future<List<Deadline>> getCourseDeadlines(String course) async {
+  List<Deadline> result = [];
+  try {
+    await FirebaseFirestore.instance
+        .collection("notifications")
+        .where('isDeadline', isEqualTo: true)
+        .where('course_code', isEqualTo: course)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        Deadline newDeadline = Deadline(
+            course_code: doc['course_code'],
+            title: doc['title'],
+            deadline_date: doc['deadline_date']);
+        result.add(newDeadline);
+      }
+    });
+  } catch (e) {
+    print(e.toString());
+    rethrow;
+  }
+  result.sort((a, b) {
+    return a.compareTo(b);
+  });
+  return result;
+}
+
 Future<List<Deadline>> getStudentDeadlines(List<dynamic> coursesCodes) async {
   List<Deadline> result = [];
   try {
