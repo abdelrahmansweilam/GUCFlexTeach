@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flexteach/Backend/course_description.dart';
+import 'package:flexteach/Models/course.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoProvider with ChangeNotifier {
@@ -7,6 +9,7 @@ class UserInfoProvider with ChangeNotifier {
   bool isInstructor = false;
   String major = '';
   String name = '';
+  List<Course> courseDesciptionList = [];
 
   Future<void> fetchUserInfoFromServer(var currentUserId) async {
     var collection = FirebaseFirestore.instance.collection('users');
@@ -18,6 +21,7 @@ class UserInfoProvider with ChangeNotifier {
       isInstructor = data?['isInstructor'];
       major = data?['major'];
       name = data?['name'];
+      courseDesciptionList = await getCoursesDescription(courses);
     }
     notifyListeners();
   }
@@ -40,5 +44,9 @@ class UserInfoProvider with ChangeNotifier {
 
   String get getName {
     return name;
+  }
+
+  List<Course> get getCourseDescriptionList {
+    return courseDesciptionList;
   }
 }

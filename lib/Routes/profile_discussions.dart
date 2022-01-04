@@ -25,7 +25,6 @@ class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    // AddDiscussions('body', 'title', 'course', userId);
     getMyDiscussionsList(userId);
   }
 
@@ -35,55 +34,39 @@ class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Discussions"),
+        title: const Text("My Discussions"),
         backgroundColor: Colors.red,
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(10),
-            width: double.infinity,
-            child: const Text(
-              "My Discussions",
-              softWrap: true,
-              overflow: TextOverflow.fade,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
+      body: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+          height: 1,
+          thickness: 2,
+        ),
+        itemBuilder: (ctx, index) {
+          return ListTile(
+            title: Text(
+              discussions[index].title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          ),
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-              height: 1,
-              thickness: 2,
-            ),
-            itemBuilder: (ctx, index) {
-              return ListTile(
-                  title: Text(
-                    discussions[index].title,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(discussions[index].body),
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/discussionRoute",
-                        arguments: {"discussionId": discussions[index].id});
-                  },
-                  trailing: discussions[index].open
-                      ? Icon(Icons.arrow_forward)
-                      : Icon(
-                          Icons.check,
-                          color: Colors.green,
-                          size: 40,
-                        ));
+            subtitle: Text(discussions[index].body),
+            onTap: () {
+              Navigator.of(context).pushNamed("/discussionRoute",
+                  arguments: {"discussionId": discussions[index].id});
             },
-            itemCount: discussions.length,
-          ),
-        ],
+            trailing: discussions[index].open
+                ? Platform.isIOS
+                    ? const Icon(Icons.arrow_forward_ios)
+                    : const Icon(Icons.arrow_forward)
+                : const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                    size: 40,
+                  ),
+          );
+        },
+        itemCount: discussions.length,
       ),
     );
   }
@@ -95,11 +78,5 @@ class _ProfileDiscussionsScreenState extends State<ProfileDiscussionsScreen> {
       discussions = courseDiscussionsListAsync;
       print(discussions);
     });
-    // deleteDiscussion(discussions[0].id);
   }
-
-  // void AddDiscussions(
-  //     String body, String title, String course, String userId) async {
-  //   await addDiscussion(body, title, course, userId);
-  // }
 }

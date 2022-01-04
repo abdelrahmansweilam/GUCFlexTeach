@@ -173,9 +173,13 @@ class _HomePageState extends State<HomePage> {
                 label: 'Notifications'),
             isInstructor
                 ? const BottomNavigationBarItem(
-                    icon: Icon(Icons.add), label: 'Notify')
+                    icon: Icon(
+                      Icons.notification_add_outlined,
+                      size: 36,
+                    ),
+                    label: 'Notify')
                 : BottomNavigationBarItem(
-                    icon: assignment_icon, label: 'Assignments')
+                    icon: deadlines_icon, label: 'Deadlines')
           ],
           currentIndex: selectedTabIndex,
           onTap: switchPage,
@@ -268,8 +272,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Due Assignments Tab
                 isInstructor
-                    ? const Tab(icon: Icon(Icons.add))
-                    : Tab(icon: assignment_icon),
+                    ? const Tab(
+                        icon: Icon(
+                        Icons.notification_add_outlined,
+                        size: 36,
+                      ))
+                    : Tab(icon: deadlines_icon),
               ],
             ),
           ),

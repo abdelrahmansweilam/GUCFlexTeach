@@ -14,23 +14,26 @@ class DiscussionsScreen extends StatefulWidget {
 }
 
 class _DiscussionsScreenState extends State<DiscussionsScreen> {
-  List<Course> coursesDescriptionList = [];
+  // List<Course> coursesDescriptionList = [];
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final userInfoProvider = Provider.of<UserInfoProvider>(context);
-    final coursesList = userInfoProvider.getCourses;
-    getCoursesDescriptionList(coursesList);
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final userInfoProvider = Provider.of<UserInfoProvider>(context);
+  //   final coursesList = userInfoProvider.getCourses;
+  //   getCoursesDescriptionList(coursesList);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final userInfoProvider = Provider.of<UserInfoProvider>(context);
+    List<Course> coursesDescriptionList =
+        userInfoProvider.getCourseDescriptionList;
     return Column(children: [
       Container(
         margin: const EdgeInsets.all(10),
@@ -74,11 +77,11 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     ]);
   }
 
-  void getCoursesDescriptionList(coursesList) async {
-    List<Course> courseDesciptionListAsync =
-        await getCoursesDescription(coursesList);
-    setState(() {
-      coursesDescriptionList = courseDesciptionListAsync;
-    });
-  }
+  // void getCoursesDescriptionList(coursesList) async {
+  //   List<Course> courseDesciptionListAsync =
+  //       await getCoursesDescription(coursesList);
+  //   setState(() {
+  //     coursesDescriptionList = courseDesciptionListAsync;
+  //   });
+  // }
 }

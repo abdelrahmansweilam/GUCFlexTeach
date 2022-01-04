@@ -5,6 +5,9 @@ ImageIcon discussion_icon = const ImageIcon(
   size: 36,
 );
 
+ImageIcon deadlines_icon =
+    const ImageIcon(AssetImage('lib/Assets/Images/deadlines.png'), size: 36);
+
 ImageIcon assignment_icon = const ImageIcon(
   AssetImage('lib/Assets/Images/assignment.png'),
   size: 36,

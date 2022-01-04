@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flexteach/Backend/course_description.dart';
+import 'package:flexteach/Models/course.dart';
 import 'package:flexteach/Widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,23 +15,12 @@ class CoursesScreen extends StatefulWidget {
 }
 
 class _CoursesScreenState extends State<CoursesScreen> {
-  var coursesList;
-
-  Future<void> getMyCourses() async {
-    // await coursesList = get from DB
-    coursesList = ["CSEN1114", "CSEN901"];
-  }
-
-  @override
-  void initState() {
-    getMyCourses();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final userInfoProvider = Provider.of<UserInfoProvider>(context);
-    final coursesList = userInfoProvider.getCourses;
+    List<dynamic> coursesList = userInfoProvider.getCourses;
+    List<Course> coursesDescriptionList =
+        userInfoProvider.getCourseDescriptionList;
     return Column(children: [
       Container(
         margin: const EdgeInsets.all(10),
@@ -43,13 +36,30 @@ class _CoursesScreenState extends State<CoursesScreen> {
           textAlign: TextAlign.left,
         ),
       ),
-      ListView.builder(
+      ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+          height: 1,
+          thickness: 2,
+        ),
         itemBuilder: (ctx, index) {
-          return CourseCard(courseName: coursesList[index]);
+          return ListTile(
+            title: Text(
+              coursesDescriptionList[index].code,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(coursesDescriptionList[index].name),
+            onTap: () {
+              Navigator.of(context).pushNamed("/courseRoute",
+                  arguments: {"course": coursesDescriptionList[index].code});
+            },
+            trailing: Platform.isIOS
+                ? const Icon(Icons.arrow_forward_ios)
+                : const Icon(Icons.arrow_forward),
+          );
         },
-        itemCount: coursesList.length,
+        itemCount: coursesDescriptionList.length,
       ),
     ]);
   }
