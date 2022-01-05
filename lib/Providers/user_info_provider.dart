@@ -16,12 +16,14 @@ class UserInfoProvider with ChangeNotifier {
     var docSnapshot = await collection.doc(currentUserId).get();
     if (docSnapshot.exists) {
       Map<String, dynamic>? data = docSnapshot.data();
-      appID = data?['app_id'];
-      courses = data?['courses'];
-      isInstructor = data?['isInstructor'];
-      major = data?['major'];
-      name = data?['name'];
-      courseDesciptionList = await getCoursesDescription(courses);
+      if (data?['app_id'] != null) {
+        appID = data?['app_id'];
+        courses = data?['courses'];
+        isInstructor = data?['isInstructor'];
+        major = data?['major'];
+        name = data?['name'];
+        courseDesciptionList = await getCoursesDescription(courses);
+      }
     }
     notifyListeners();
   }

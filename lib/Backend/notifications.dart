@@ -42,14 +42,11 @@ Future<List<UserNotification>> getUserNotifications(
   try {
     await FirebaseFirestore.instance
         .collection("notifications")
-        .orderBy("time_created", descending: false)
+        .orderBy("time_created", descending: true)
         .get()
         .then((snapshot) {
       for (var doc in snapshot.docs) {
         if (courses.contains(doc.data()['course_code'] as String)) {
-          String notification_title = doc['title'];
-          String notification_body =
-              doc['title'] + " is now posted on the CMS.";
           UserNotification newNotification = UserNotification(
             title: doc['title'],
             body: doc['body'],

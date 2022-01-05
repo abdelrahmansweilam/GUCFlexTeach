@@ -95,9 +95,9 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop();
                                         deleteDiscussion(discussion.id)
                                             .then((value) {
+                                          Navigator.of(context).pop();
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(successSnackBar);
                                           Navigator.of(context).pop();

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flexteach/Providers/user_info_provider.dart';
+import 'package:flexteach/Services/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
@@ -54,6 +55,7 @@ class _HomePageState extends State<HomePage> {
         print(
             'Message also contained a notification: ${message.notification!.body}');
       }
+      LocalNotificationService.display(message);
     });
     for (var element in userInfoProvider.getCourses) {
       fcm.subscribeToTopic(element as String);

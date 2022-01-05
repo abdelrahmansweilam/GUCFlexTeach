@@ -64,7 +64,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       " Posted on " +
                       DateFormat('dd MMM yyyy')
                           .format(notifications[index].time_created.toDate()) +
-                      "at " +
+                      " at " +
                       DateFormat('kk:mm')
                           .format(notifications[index].time_created.toDate())),
                 ),
